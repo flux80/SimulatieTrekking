@@ -77,12 +77,13 @@ if simulatie_starten:
     p_gem_simulatie = totaal_goud / aantal_trekkingen
     
     st.subheader("Resultaten")
-    st.write(f"Totaal trekkingen: **{aantal_trekkingen}**")
-    st.write(f"Aantal keer goud getrokken: **{totaal_goud}**")
-    st.write(f"Aantal keer blauw getrokken: **{totaal_blauw}**")    
-    st.markdown(
-    rf"**Gemiddelde kans op goud uit simulatie:** $P_{{gem}} = \frac{{{totaal_goud}}}{{{aantal_trekkingen}}} = {totaal_goud / aantal_trekkingen:.3f}$"
-)
+    st.markdown(f"""
+    - **Totaal trekkingen:** {aantal_trekkingen}  
+    - **Aantal keer goud getrokken:** {totaal_goud}  
+    - **Aantal keer blauw getrokken:** {totaal_blauw}  
+    - **Gemiddelde kans op goud uit simulatie:**  $$P_{{gem}} = \\frac{{{totaal_goud}}}{{{aantal_trekkingen}}} = {totaal_goud / aantal_trekkingen:.3f}$$
+    """)
+
 
     df_states = pd.DataFrame([
         {
