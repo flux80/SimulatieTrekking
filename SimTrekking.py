@@ -111,7 +111,7 @@ if simulatie_starten:
     st.subheader("Aantal blauwe ballen per trekking")
     chart_blauw = alt.Chart(df_blauw).mark_line(point=True).encode(
         x=alt.X('Trekking:Q', title="Trekking nummer"),
-        y=alt.Y('Aantal blauwe:Q', title="Aantal blauwe ballen"),
+        y=alt.Y('Aantal blauwe:Q', title="Aantal blauwe ballen in zak"),
         tooltip=['Trekking', 'Aantal blauwe']
     ).properties(
         width=700,
