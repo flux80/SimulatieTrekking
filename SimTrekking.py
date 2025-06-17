@@ -5,7 +5,7 @@ import pandas as pd
 import altair as alt
 
 st.set_page_config(layout="wide")
-st.title("Simulatie: blauwe bal = verwijderen, gouden bal = reset")
+st.title("Simulatie: blauw → eruit, goud → reset")
 
 # SIDEBAR: Businessregels en invoer
 with st.sidebar:
