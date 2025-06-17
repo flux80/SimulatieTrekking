@@ -27,15 +27,8 @@ with st.sidebar:
     # Formule voor gemiddelde kans
     st.markdown("---")
     st.markdown(f"### Gemiddelde theoretische kans op goud bij {aantal_blauwe_start} blauwe ballen:")
-    with st.container():
-        # st.markdown(
-            # """
-            # <div style='border: 1px solid #ddd; border-radius: 10px; padding: 10px; background-color: #f0f0f0;'>
-            # <strong>Formule:</strong><br><br>
-            # """,
-            # unsafe_allow_html=True
-        # )
-        formule = rf"P_{{gem}} = \frac{{2}}{{n + 2}} = \frac{{2}}{{{aantal_blauwe_start} + 2}} = {2 / (aantal_blauwe_start + 2):.3f}"
+    with st.container():        
+        formule = rf"P_{{gem}} = \frac{{2}}{{n + 2}} = \frac{{2}}{{{aantal_blauwe_start} + 2}} \approx {2 / (aantal_blauwe_start + 2):.3f}"
         st.latex(formule)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -81,8 +74,9 @@ if simulatie_starten:
     - **Totaal trekkingen:** {aantal_trekkingen}  
     - **Aantal keer goud getrokken:** {totaal_goud}  
     - **Aantal keer blauw getrokken:** {totaal_blauw}  
-    - **Gemiddelde kans op goud uit simulatie:**  $$P_{{gem}} = \\frac{{{totaal_goud}}}{{{aantal_trekkingen}}} = {totaal_goud / aantal_trekkingen:.3f}$$
+    - **Gemiddelde kans op goud uit simulatie:**  $$P_{{gem}} = \\frac{{{totaal_goud}}}{{{aantal_trekkingen}}} \\approx {totaal_goud / aantal_trekkingen:.3f}$$
     """)
+
 
 
     df_states = pd.DataFrame([
