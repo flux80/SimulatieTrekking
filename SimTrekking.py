@@ -11,19 +11,33 @@ st.title("Simulatie: blauw = verwijderen, goud = reset")
 with st.sidebar:
     st.header("Businessregels")
     st.markdown("""
-- De zak bevat 1 gouden en een door de gebruiker opgegeven aantal blauwe ballen.  
-- Per beurt wordt **één bal getrokken**.  
-- Als er een **blauwe bal** wordt getrokken:  
-  - Die bal **verdwijnt uit de zak** (geen teruglegging).  
-- Als er een **gouden bal** wordt getrokken:  
-  - **Alle ballen worden teruggelegd** (dus opnieuw: 1 gouden + X blauwe).
+- Een zak bevat 1 gouden bal en 𝑛 blauwe ballen, waarbij 𝑛 wordt opgegeven door de gebruiker.
+- Per beurt (trekking) wordt één bal getrokken.
+- Wordt een blauwe bal getrokken, dan verdwijnt deze uit de zak (geen teruglegging).
+- Wordt een gouden bal getrokken, dan worden alle ballen terug in de zak gedaan, zodat de samenstelling weer 1 gouden en 𝑛 blauwe ballen is.
+- Dit proces wordt herhaald voor het aantal trekkingen dat door de gebruiker is opgegeven.
 """)
 
     st.header("Simulatie-invoer")
-    aantal_blauwe_start = st.number_input("Aantal blauwe ballen bij start", min_value=1, value=3)
+    aantal_blauwe_start = st.number_input("Aantal blauwe ballen (𝑛) bij start", min_value=1, value=3)
     aantal_trekkingen = st.number_input("Aantal trekkingen", min_value=1, value=100)
     toon_log = st.checkbox("Toon simulatielog", value=True)
     simulatie_starten = st.button("Start simulatie")
+
+    # Formule voor gemiddelde kans
+    st.markdown("---")
+    st.markdown(f"### Gemiddelde theoretische kans op goud bij {aantal_blauwe_start} blauwe ballen:")
+    with st.container():
+        # st.markdown(
+            # """
+            # <div style='border: 1px solid #ddd; border-radius: 10px; padding: 10px; background-color: #f0f0f0;'>
+            # <strong>Formule:</strong><br><br>
+            # """,
+            # unsafe_allow_html=True
+        # )
+        formule = rf"P_{{gem}} = \frac{{2}}{{n + 2}} = \frac{{2}}{{{aantal_blauwe_start} + 2}} = {2 / (aantal_blauwe_start + 2):.3f}"
+        st.latex(formule)
+        st.markdown("</div>", unsafe_allow_html=True)
 
 # HOOFDGEDEELTE: Resultaten en log
 if simulatie_starten:
@@ -60,10 +74,15 @@ if simulatie_starten:
             zak.remove("blauw")
             log.append(f"🔵 Trekking {i}: blauw getrokken → zak = {zak}")
 
+    p_gem_simulatie = totaal_goud / aantal_trekkingen
+    
     st.subheader("Resultaten")
     st.write(f"Totaal trekkingen: **{aantal_trekkingen}**")
     st.write(f"Aantal keer goud getrokken: **{totaal_goud}**")
-    st.write(f"Aantal keer blauw getrokken: **{totaal_blauw}**")
+    st.write(f"Aantal keer blauw getrokken: **{totaal_blauw}**")    
+    st.markdown(
+    rf"**Gemiddelde kans op goud uit simulatie:** $P_{{gem}} = \frac{{{totaal_goud}}}{{{aantal_trekkingen}}} = {totaal_goud / aantal_trekkingen:.3f}$"
+)
 
     df_states = pd.DataFrame([
         {
@@ -88,7 +107,7 @@ if simulatie_starten:
     )
     st.altair_chart(chart, use_container_width=True)
 
-    # ➕ NIEUWE GRAFIEK: Aantal blauwe ballen per trekking
+    # ➕ GRAFIEK: Aantal blauwe ballen per trekking
     df_blauw = pd.DataFrame({
         "Trekking": list(range(1, aantal_trekkingen + 1)),
         "Aantal blauwe": blauw_per_trekking
@@ -104,9 +123,8 @@ if simulatie_starten:
         height=300
     )
     st.altair_chart(chart_blauw, use_container_width=True)
-    
+
     if toon_log:
         st.subheader("Simulatielog")
         for regel in log:
             st.text(regel)
-
