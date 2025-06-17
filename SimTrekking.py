@@ -21,7 +21,8 @@ with st.sidebar:
 
     st.header("Simulatie-invoer")
     aantal_blauwe_start = st.number_input("Aantal blauwe ballen bij start", min_value=1, value=3)
-    aantal_trekkingen = st.number_input("Aantal trekkingen", min_value=1, value=100)    
+    aantal_trekkingen = st.number_input("Aantal trekkingen", min_value=1, value=100)
+    toon_log = st.checkbox("Toon simulatielog", value=True)
     simulatie_starten = st.button("Start simulatie")
 
 # HOOFDGEDEELTE: Resultaten en log
@@ -104,6 +105,8 @@ if simulatie_starten:
     )
     st.altair_chart(chart_blauw, use_container_width=True)
     
-    st.subheader("Simulatielog")
-    for regel in log:
-        st.text(regel)
+    if toon_log:
+        st.subheader("Simulatielog")
+        for regel in log:
+            st.text(regel)
+
